@@ -5,6 +5,7 @@
  *      Author: roquealex
  */
 
+#include "Heap.h"
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
@@ -43,6 +44,7 @@ void printArray(int *arr, size_t size) {
   for(int i = 0 ; i < size ; i++) {
     cout<<arr[i]<<" ";
   }
+  cout<<endl;
 }
 
 int main() {
@@ -62,6 +64,49 @@ int main() {
   cout<<"Array a and b are "<<(eq?"Equal":"Different")<<endl;
   make_heap(a,&a[sizeA]);
   printHeap(a,sizeA);
+  printArray(a,sizeA);
+  reverse(b,&b[sizeA]);
+  printArray(b,sizeB);
+  printHeap(b,sizeB);
+  cout<<"Array a is heap: "<<is_heap(a,&a[sizeA])<<endl;
+  cout<<"Array b is heap: "<<is_heap(b,&b[sizeA])<<endl;
+  // Manipulating heap:
+  pop_heap(a,&a[sizeA]);
+  pop_heap(a,&a[sizeA-1]);
+  pop_heap(a,&a[sizeA-2]);
+  printHeap(a,sizeA);
+  auto lastHeap = is_heap_until(a,&a[sizeA]);
+  cout<<"This is the element "<<*lastHeap<<endl;
+  /// Adding an element in that postion:
+  *lastHeap = 20;
+  lastHeap++;
+  push_heap(a,lastHeap);
+  printHeap(a,sizeA);
+  vector<int> test = {27,17,3,16,13,10,1,5,7,12,4,8,9,0};
+  //vector<int> test = {1,2,3,4,5,6,7,8,9};
+  Heap<int> h(test);
+  h.printHeap();
+  //h.maxHeapify(2);
+  h.makeHeap();
+  h.printHeap();
+  h.sortHeap();
+  for (auto x : test) {
+    cout<<x<<" ";
+  }
+  cout<<endl;
+  h.makeHeap();
+  h.pushHeap(11);
+  h.pushHeap(2);
+  h.pushHeap(6);
+  h.pushHeap(14);
+  h.pushHeap(15);
+  h.printHeap();
+  while(h.getSize() > 0) {
+    cout<<"Front of the heap: "<<h.frontHeap()<<endl;
+    h.popHeap();
+    h.printHeap();
+  }
+
   return 0;
 }
 
