@@ -29,8 +29,25 @@ public:
   void printHeap() const;
 
   size_t getSize() const;
+  /**
+   * Adds a new element to the heap. Since this heap is based on
+   * a vector it will grow after the execution of this method.
+   * The heap properties are kept
+   * @param t New element to be added.
+   * @see popHeap()
+   */
   void pushHeap(const T& t);
+  /**
+   * Returns a reference the front element from the heap.
+   * The element won't be removed.
+   * @see popHeap()
+   */
   T& frontHeap() const;
+  /**
+   * Removes the front element from the heap. It doesn;t return the
+   * element so a call to frontHeap if we want to keep it.
+   * @see frontHeap()
+   */
   void popHeap();
 
 };
