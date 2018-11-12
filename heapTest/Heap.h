@@ -23,6 +23,13 @@ private:
   size_t _left(size_t i) const { return 2*i + 1;}
   size_t _right(size_t i) const { return 2*(i + 1);}
   size_t _parent(size_t i) const { return (i - 1)/2;}
+  bool _compIndex(size_t i, size_t j) {
+    return (_v[i] > _v[j]);
+  }
+  void _swapIndex(size_t i, size_t j) {
+    swap(_v[i],_v[j]);
+  }
+
 public:
   Heap(vector<T> &v) : _v(v) {};
   void printHeap() const;
@@ -35,39 +42,39 @@ public:
     auto lIndex = _left(i);
     auto rIndex = _right(i);
     auto max = i;
-    if (rIndex < size && _v[rIndex] > _v[max]) {
+    if (rIndex < size && _compIndex(rIndex,max)){
       max = rIndex;
     }
-    if (lIndex < size && _v[lIndex] > _v[max]) {
+    if (lIndex < size && _compIndex(lIndex,max) ) {
       max = lIndex;
     }
     if (max != i) {
-      swap(_v[max],_v[i]);
+      _swapIndex(max,i);
       maxHeapify(max,size);
     }
   }
 
   void makeHeap() {
-    size_t idx = _v.size()/2;
+    size_t idx = getSize()/2;
     while(idx>0) {
         idx--;
-        maxHeapify(idx,_v.size());
+        maxHeapify(idx,getSize());
     }
   }
 
   void sortHeap() {
-    size_t size = _v.size();
+    size_t size = getSize();
     while(size > 1) {
       size--;
-      swap(_v[0],_v[size]);
+      _swapIndex(0,size);
       maxHeapify(0,size);
     }
   }
 
   void heapifyUp(size_t idx) {
     auto pIndex = _parent(idx);
-    while (idx > 0 && _v[idx] > _v[pIndex]) {
-      swap(_v[idx] , _v[pIndex]);
+    while (idx > 0 && _compIndex(idx,pIndex)){
+      _swapIndex(idx , pIndex);
       idx = pIndex;
       pIndex = _parent(idx);
     }
@@ -75,7 +82,7 @@ public:
 
   void pushHeap(const T& t) {
     _v.push_back(t);
-    heapifyUp(_v.size()-1);
+    heapifyUp(getSize()-1);
   }
 
   T& frontHeap() const {
@@ -83,7 +90,7 @@ public:
   }
 
   void popHeap() {
-    size_t size = _v.size();
+    size_t size = getSize();
     size--;
     swap(_v[0],_v[size]);
     _v.pop_back();
@@ -95,7 +102,7 @@ public:
 template <class T>
 size_t Heap<T>::_getH() const {
   size_t h = 0;
-  auto size = _v.size();
+  auto size = getSize();
   while(size) {
     h++;
     size>>=1;
@@ -108,7 +115,7 @@ void Heap<T>::printHeap() const {
   unsigned int lim = 2;
   size_t h = _getH();
   int w = (1<<(h-1))*4;
-  for(unsigned int i = 0 ; i < _v.size() ; i++) {
+  for(unsigned int i = 0 ; i < getSize() ; i++) {
     if (lim == i+1) {
       cout<<endl;
       lim<<=1;
