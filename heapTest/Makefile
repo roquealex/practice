@@ -1,6 +1,6 @@
 CXXFLAGS =	-std=c++11 -g -Wall -fmessage-length=0
 
-OBJS =		heapTest.o
+OBJS =		heapTest.o HeapBase.o
 
 LIBS =
 

@@ -13,16 +13,18 @@
 #include <iomanip>
 #include <algorithm>
 
+#include "HeapBase.h"
+
 using namespace std;
 
 template <class T>
-class Heap {
+class Heap : public HeapBase {
 private:
   vector<T>& _v;
   size_t _getH() const;
-  size_t _left(size_t i) const { return 2*i + 1;}
-  size_t _right(size_t i) const { return 2*(i + 1);}
-  size_t _parent(size_t i) const { return (i - 1)/2;}
+  //size_t _left(size_t i) const { return 2*i + 1;}
+  //size_t _right(size_t i) const { return 2*(i + 1);}
+  //size_t _parent(size_t i) const { return (i - 1)/2;}
   bool _compIndex(size_t i, size_t j) {
     return (_v[i] > _v[j]);
   }
@@ -38,6 +40,7 @@ public:
     return _v.size();
   }
 
+  /*
   void maxHeapify(size_t i, size_t size) {
     auto lIndex = _left(i);
     auto rIndex = _right(i);
@@ -79,6 +82,7 @@ public:
       pIndex = _parent(idx);
     }
   }
+  */
 
   void pushHeap(const T& t) {
     _v.push_back(t);
