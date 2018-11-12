@@ -15,9 +15,6 @@
 #include <iomanip>
 #include <algorithm>
 
-
-using namespace std;
-
 template <class T>
 class Heap : public HeapBase {
 private:
@@ -85,6 +82,7 @@ void Heap<T>::popHeap() {
 
 template <class T>
 void Heap<T>::printHeap() const {
+  using namespace std;
   unsigned int lim = 2;
   size_t h = _getH();
   int w = (1<<(h-1))*4;
