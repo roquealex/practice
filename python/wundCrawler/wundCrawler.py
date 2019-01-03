@@ -1,9 +1,32 @@
 import requests
 import pandas as pd
+import re
+import os
+
+def setupPath(dirpath):
+    if dirpath not in ['','.','./'] and not os.path.isdir(dirpath) :
+        print("Path do not exist",dirpath)
+        print("Creating it...")
+        os.makedirs(dirpath)
+    
+
 
 print("Crawler test")
 
-parameters = {'ID':'IYUCATNT2','month':1,'day':1,'year':2016,'format':1}
+#specify the file as a pandas.Timestamp 
+
+path = '.'
+#hier = False
+hier = True
+hier_patt = '%Y/%m/'
+format = 'Csv'
+pwsID = 'IYUCATNT2'
+ts = pd.Timestamp(year=2017, month=1, day=1)
+
+parameters = {'ID':pwsID,'month':ts.month,'day':ts.day,'year':ts.year,'format':1}
+
+#dateStr = ts.strftime('yyyy-MM-dd')
+dateStr = ts.strftime('%Y-%m-%d')
 
 # Other tries:
 #parameters = {'ID':'IYUCATNT2','month':1,'day':1,'year':2017}
@@ -17,13 +40,64 @@ parameters = {'ID':'IYUCATNT2','month':1,'day':1,'year':2016,'format':1}
 #2017-06-11
 #parameters = {'ID':'IYUCATNT2','month':6,'day':11,'year':2017,'format':1}
 
-resp = requests.get('https://www.wunderground.com/weatherstation/WXDailyHistory.asp',params=parameters)
+# From spark:
+#Format("yyyy-MM-dd HH:mm:ss")
 
-print(resp.content.decode('utf-8'))
+resp = requests.get('https://www.wunderground.com/weatherstation/WXDailyHistory.asp',
+                    params=parameters,timeout=10)
+resp.raise_for_status()
+#print(resp.content.decode('utf-8'))
+# Binary:
+#print(resp.content)
+# text:
+print(resp.text)
 #?ID=IYUCATNT2&month=1&day=1&year=2017&format=5')
 
-print(resp.content.decode('utf-8').split('\n')[1])
-f= open("date.txt","wb")
-#f.write(resp.content.decode('utf-8'))
-f.write(resp.content)
-f.close()
+#print(resp.content.decode('utf-8').split('\n')[1])
+lines = resp.text.split('\n')
+print(lines[1])
+
+#    '^Time,TemperatureF,.*,WindDirectionDegrees,WindSpeedMPH,.*0,DateUTC\S$',
+#    '^Time,TemperatureF,.*,WindDirectionDegrees,WindSpeedMPH,.*0,DateUTC\S*$',
+valid = re.match(
+    '^Time,TemperatureF,.*,WindDirectionDegrees,WindSpeedMPH,.*,DateUTC\S*$',
+    resp.text.split('\n')[1])
+
+assert valid, 'Invalid format for date '+dateStr+', header not found'
+
+print(dateStr)
+
+fileBaseName = pwsID+'-'+dateStr
+
+hierPath = ''
+if hier :
+    hierPath = ts.strftime(hier_patt)
+    
+
+basePath = path+'/'+hierPath
+setupPath(basePath)
+
+fileBasePath = basePath+fileBaseName
+
+if format == 'csv' :
+    pass
+else :
+    fileName = fileBasePath+'.txt'
+    print('Saving raw file',)
+    # Raw file from the binary response
+    f= open(fileName,"wb+")
+    f.write(resp.content)
+    f.close()
+    
+#f= open("date.txt","wb")
+#f.write(resp.content)
+#f.close()
+
+# some nice info:
+#print(resp.url)
+#print(resp.encoding)
+#print(requests.codes.ok)
+
+
+
+
