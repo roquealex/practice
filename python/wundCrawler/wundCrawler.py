@@ -16,12 +16,14 @@ print("Crawler test")
 #specify the file as a pandas.Timestamp 
 
 path = '.'
-#hier = False
-hier = True
+hier = False
+#hier = True
 hier_patt = '%Y/%m/'
 format = 'Csv'
 pwsID = 'IYUCATNT2'
 ts = pd.Timestamp(year=2017, month=1, day=1)
+skip=True
+
 
 parameters = {'ID':pwsID,'month':ts.month,'day':ts.day,'year':ts.year,'format':1}
 
@@ -60,7 +62,7 @@ print(lines[1])
 #    '^Time,TemperatureF,.*,WindDirectionDegrees,WindSpeedMPH,.*0,DateUTC\S$',
 #    '^Time,TemperatureF,.*,WindDirectionDegrees,WindSpeedMPH,.*0,DateUTC\S*$',
 valid = re.match(
-    '^Time,TemperatureF,.*,WindDirectionDegrees,WindSpeedMPH,.*,DateUTC\S*$',
+    r'^Time,TemperatureF,.*,WindDirectionDegrees,WindSpeedMPH,.*,DateUTC\S*$',
     resp.text.split('\n')[1])
 
 assert valid, 'Invalid format for date '+dateStr+', header not found'
@@ -79,13 +81,23 @@ setupPath(basePath)
 
 fileBasePath = basePath+fileBaseName
 
-if format == 'csv' :
-    pass
+format = ''
+if format.lower() == 'csv' :
+    print('Saving CSV file')
+    fileName = fileBasePath+'.csv'
+    #noBrLines lines.map(lambda x: re.sub(r'<br>|,$',r'',x),lines)
+    # The response from wunderground is almost a csv but it has <br> and a coma at the end
+    noBrLines = map(lambda x: re.sub(r'<br>|,$',r'',x),lines)
+    noBlankLines = filter(lambda x : x!='',noBrLines)
+    #print(list(noBlankLines))
+    f= open(fileName,"w")
+    f.write('\n'.join(noBlankLines))
+    f.close()
 else :
     fileName = fileBasePath+'.txt'
     print('Saving raw file',)
     # Raw file from the binary response
-    f= open(fileName,"wb+")
+    f= open(fileName,"wb")
     f.write(resp.content)
     f.close()
     
