@@ -104,7 +104,7 @@ pwsID = 'IYUCATNT2'
 
 #dates = pd.date_range(start='2016-01-01',end='2016-01-31',freq='D',tz='America/Merida')
 #
-dates = pd.date_range(start='2016-01-01',end='2016-12-31',freq='D')
+dates = pd.date_range(start='2012-01-01',end='2016-12-31',freq='D')
 
 basePath = '.'
 cachePath = basePath+'/dailyHistory/'+pwsID
