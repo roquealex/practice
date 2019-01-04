@@ -10,7 +10,8 @@ def setupPath(dirpath):
         print("Creating it...")
         os.makedirs(dirpath)
     
-def requestDaily(pwsID, ts, path='.', hier=True, hier_patt='%Y/%m/',format = 'csv',skip=True) :
+def requestDaily(pwsID, ts, path='.', hier=True, hier_patt='%Y/%m/',
+                 format = 'csv',skip=True,sleep=3) :
 
     # This string version of the date will be useful in the whole function
     dateStr = ts.strftime('%Y-%m-%d')
@@ -87,6 +88,8 @@ def requestDaily(pwsID, ts, path='.', hier=True, hier_patt='%Y/%m/',format = 'cs
         f= open(fileName,"wb")
         f.write(resp.content)
         f.close()
+        
+    time.sleep(sleep)
 
 
 print("Crawler test")
@@ -107,7 +110,8 @@ basePath = '.'
 cachePath = basePath+'/dailyHistory/'+pwsID
 for date in dates :
     requestDaily(pwsID,date,path=cachePath)
-    time.sleep(3)
+    # Miving the sleep inside the method
+    #time.sleep(3)
 
 #print("one")
 #time.sleep(3)
