@@ -12,18 +12,21 @@ object OneDay extends App {
   val spark = SparkSession.builder
     .master("local[*]")
     .appName("Spark Word Count")
-    .config("spark.sql.session.timeZone", "UTC")
+    //.config("spark.sql.session.timeZone", "UTC")
+    //.config("spark.sql.session.timeZone", "America/Merida")
     //.config("user.timezone", "UTC")
     .getOrCreate()
 
-  TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+  //TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
 
   val staticDataFrame = spark.read
     .format("csv")
     .option("header","true")
     .option("inferSchema","true")
-    .load("IYUCATNT2-2016-04-18.csv")
-    //.load("mini.csv")
+    //.load("12/*.csv")
+    //.load("IYUCATNT2-2016-04-18.csv")
+    //.load("oneday.csv")
+    .load("mini.csv")
     //.load("mini3.csv")
 
   //spark.conf.set("spark.sql.session.timeZone", "UTC")
@@ -33,8 +36,9 @@ object OneDay extends App {
 
   // Extracting only the variables I'm interested
   //var windTimeSeriesDF = staticDataFrame.select(  "Time", "WindDirectionDegrees", "WindSpeedMPH", "WindSpeedGustMPH")
+  // EPOCH experiments below:
   var windTimeSeriesDF = staticDataFrame.select(  "Time", "WindSpeedMPH")
-    .withColumn("epoch",col("Time").cast("long"))
+    //.withColumn("epoch",col("Time").cast("long"))
   windTimeSeriesDF.show()
   windTimeSeriesDF.printSchema()
 
@@ -57,7 +61,6 @@ object OneDay extends App {
   //+-------------------+------------+----------+
   //|2016-04-18 05:00:00|           7|1460955600|
 
-  /*
   // Add the day:
   var windTimeSeriesDateDF = windTimeSeriesDF.withColumn("LocalDate",col("Time").cast("date"))
   windTimeSeriesDateDF.show()
@@ -112,6 +115,10 @@ object OneDay extends App {
   windExtractDF.show(300,false)
   windExtractDF.printSchema()
 
+  // For comparison
+  windExtractDF.sort("Time").coalesce(1).write.option("header","true").csv("output")
+
+  /*
   // 300 min equals 5 min
   val wind25MphDF = windExtractDF.where(col("interWindSpeedMPH")>25.0)
     .withColumn("DayRow",row_number().over(partitionWindow))
