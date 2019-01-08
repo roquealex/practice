@@ -20,7 +20,7 @@ object OneMonth extends App {
   val staticDataFrame = spark.read
     .format("csv")
     .option("header","true")
-    .option("inferSchema","true")
+    //.option("inferSchema","true") // InferSchema becomes unreliable when having empty csvs
     //.load("month/IYUCATNT2-2012-12-01.csv")
     .load("month/")
     //.load("mini.csv")
@@ -31,8 +31,14 @@ object OneMonth extends App {
   staticDataFrame.printSchema()
   staticDataFrame.show()
 
+  val typeDataFrame = staticDataFrame.selectExpr(
+    "cast(Time as timestamp)", "cast(WindSpeedMPH as double)"
+  )
+  //var windTimeSeriesDF = staticDataFrame.select(  "Time", "WindDirectionDegrees", "WindSpeedMPH", "WindSpeedGustMPH")
+
+
   // The timezone change actually has some effect since the dates get converted to UTC when read?
-  val daysDF = staticDataFrame.selectExpr("cast(Time as date) AS LocalDate").groupBy("LocalDate").count()
+  val daysDF = typeDataFrame.selectExpr("cast(Time as date) AS LocalDate").groupBy("LocalDate").count()
   daysDF.show()
   daysDF.printSchema()
 
@@ -43,7 +49,7 @@ object OneMonth extends App {
 
   // Extracting only the variables I'm interested
   //var windTimeSeriesDF = staticDataFrame.select(  "Time", "WindDirectionDegrees", "WindSpeedMPH", "WindSpeedGustMPH")
-  var windTimeSeriesDF = staticDataFrame.select(  "Time", "WindSpeedMPH")
+  var windTimeSeriesDF = typeDataFrame.select(  "Time", "WindSpeedMPH")
   //  .withColumn("epoch",col("Time").cast("long"))
   windTimeSeriesDF.show()
   windTimeSeriesDF.printSchema()
@@ -95,6 +101,8 @@ object OneMonth extends App {
     //.withColumn("m",expr("(next_reading-reading)/(next_ts-timestamp)"))
     //.withColumn("b",expr("(timestamp*next_reading-next_ts*reading)/(timestamp-next_ts)"))
   windTimeWindowLineDF.show()
+  windTimeWindowLineDF.printSchema()
+
 
   def inter5Range(tsX:Timestamp,tsY:Timestamp) : Seq[Timestamp] = {
     val FIVE_MINUTES_IN_MILLIS : Long = 5*60*1000;//millisecs
@@ -150,6 +158,7 @@ object OneMonth extends App {
   val wind15MphGroupsDF = wind15MphDF.groupBy("LocalDate","dayGroup").count().filter("count>24")
   //  .sort("LocalDate")
   wind15MphGroupsDF.show()
+  /*
 
   val wind15MphTotalDF = wind15MphGroupsDF.groupBy("LocalDate").agg(sum("count").as("Total15"))
   //  .sort("LocalDate")
@@ -187,5 +196,6 @@ object OneMonth extends App {
   summaryDF.coalesce(1).write
     .option("header", "true")
     .csv("output")
+    */
 
 }
