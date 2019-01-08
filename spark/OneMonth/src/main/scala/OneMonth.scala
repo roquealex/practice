@@ -158,7 +158,6 @@ object OneMonth extends App {
   val wind15MphGroupsDF = wind15MphDF.groupBy("LocalDate","dayGroup").count().filter("count>24")
   //  .sort("LocalDate")
   wind15MphGroupsDF.show()
-  /*
 
   val wind15MphTotalDF = wind15MphGroupsDF.groupBy("LocalDate").agg(sum("count").as("Total15"))
   //  .sort("LocalDate")
@@ -178,17 +177,19 @@ object OneMonth extends App {
     .groupBy("LocalDate").agg(sum("count").as("Total25"))
   wind25MphTotalDF.show()
 
-  var summaryDF = daysDF
+  //var summaryDF = daysDF
+  var summaryDF = windExtractDF.select("LocalDate").distinct()
     .join(wind15MphTotalDF, Seq("LocalDate"),"left_outer")
     .join(wind20MphTotalDF, Seq("LocalDate"),"left_outer")
     .join(wind25MphTotalDF, Seq("LocalDate"),"left_outer")
     .na.fill(0)
-    .withColumn("PseudoSpeed",
+    .withColumn("pseudoWindSpeedMPH",
       (col("Total25")=!=0).cast("integer")*5 +
       (col("Total20")=!=0).cast("integer")*5 +
       (col("Total15")=!=0).cast("integer")*15
     )
     .sort("LocalDate")
+    //.withColumnRenamed("LocalDate","Date")
 
   summaryDF.show(31)
   summaryDF.printSchema()
@@ -196,6 +197,7 @@ object OneMonth extends App {
   summaryDF.coalesce(1).write
     .option("header", "true")
     .csv("output")
+  /*
     */
 
 }
