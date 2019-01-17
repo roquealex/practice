@@ -18,21 +18,15 @@ foreach my $line (@file) {
       while(scalar(@sub_arr)!=$len){
         pop(@sub_arr);
       }
-      @sub_arr[-1]++;
+      $sub_arr[-1]++;
     } elsif (scalar(@sub_arr) < $len) {
       while(scalar(@sub_arr)!=$len){
         push(@sub_arr,1);
       }
     } else {
-      @sub_arr[-1]++;
+      $sub_arr[-1]++;
     }
     my $sub = join('.',@sub_arr);
-    #print("$sub $title\n");
-    $title = "$sub $title";
-    my $linkname = $title;
-    $linkname =~ s/\s/-/g;
-    my $entry = ' ' x (($len-1)*2)  . "* [$title](#$linkname)\n";
-    push(@table_arr,$entry);
     $line =~ s/(#+)/$1 $sub/;
     #print $line;
     #print $len."\n"
@@ -40,15 +34,12 @@ foreach my $line (@file) {
 }
 close($fh);
 
-#open(my $ofh, ">$filename") or die "Could not open $filename $!";
+open(my $ofh, ">$filename") or die "Could not open $filename $!";
 foreach my $line (@file) {
-  print $line;
+  print $ofh $line;
 }
-#close($ofh);
+close($ofh);
 
-foreach my $e (@table_arr) {
-  print $e;
-}
 
 #my @sub_arr = (1,2,3);
 #push(@sub_arr,4);
