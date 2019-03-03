@@ -10,4 +10,6 @@ sudo apt-get -y install xfce4 vnc4server
 
 #gnome
 sudo apt-get -y install xfce4 gnome-session
+sudo apt-get -y install xfce4 gnome-panel
+sudo apt-get -y install xfce4 gnome-settings-daemon
 
