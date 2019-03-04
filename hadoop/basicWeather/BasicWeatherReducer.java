@@ -4,14 +4,26 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class BasicWeatherReducer extends Reducer<Text,DoubleWritable,Text,DoubleWritable> {
   //private IntWritable wordCountWritable = new IntWritable();
+  
+  //private DoubleWritable maxTempWritable = new IntWritable();
+
   @Override
-  public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-    int wordCount = 0;
-    for( IntWritable count : values) {
-      wordCount += count.get();
+  public void reduce(Text key, Iterable<DoubleWritable> values, Context context) throws IOException, InterruptedException {
+    double maxTemp = -9999.0;
+    double minTemp = 9999.0;
+    for( DoubleWritable temp : values) {
+      //wordCount += count.get();
+      double currTemp = temp.get();
+      if (currTemp > maxTemp) {
+        maxTemp = currTemp;
+      }
+      if (currTemp < minTemp) {
+        minTemp = currTemp;
+      }
     }
-    wordCountWritable.set(wordCount);
-    context.write(key,wordCountWritable);
+    //wordCountWritable.set(wordCount);
+    //context.write(key,new DoubleWritable(maxTemp));
+    context.write(key,new DoubleWritable(minTemp));
   }
 }
 
