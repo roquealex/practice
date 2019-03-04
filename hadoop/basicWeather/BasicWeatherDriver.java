@@ -1,6 +1,7 @@
 import org.apache.hadoop.fs.Path;
 //import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.mapred.join.TupleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -32,7 +33,7 @@ public class BasicWeatherDriver extends Configured implements Tool {
     job.setMapOutputValueClass(DoubleWritable.class);
 
     job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(DoubleWritable.class);
+    job.setOutputValueClass(TupleWritable.class);
 
     boolean success = job.waitForCompletion(true);
     return success ? 0 : 1;
