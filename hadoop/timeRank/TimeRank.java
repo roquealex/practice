@@ -88,8 +88,8 @@ public class TimeRank extends Configured implements Tool {
   public static class DateHashPartitioner extends HashPartitioner<Text,Text> {
     @Override
     public int getPartition(Text key, Text value, int numReduceTasks) {
-      //return super.getPartition(key.toString().substring(0,10),value,numReduceTasks);
-      return super.getPartition(key,value,numReduceTasks);
+      return super.getPartition(new Text(key.toString().substring(0,10)),value,numReduceTasks);
+      //return super.getPartition(key,value,numReduceTasks);
     }
   }
 
