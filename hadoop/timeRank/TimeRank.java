@@ -14,6 +14,8 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat;
+
 
 import org.apache.hadoop.mapreduce.lib.partition.HashPartitioner;
 
@@ -78,7 +80,8 @@ public class TimeRank extends Configured implements Tool {
         // It is incredible the key is still different between entries:
         //if ((rank%5)==0) context.write(key,new Text(String.format("%s rank %d",currTime,rank)));
         //Even substring would have differente results when part of the time is used.
-        if ((rank%5)==0) context.write(new Text(key.toString().substring(0,10)),new Text(String.format("%s rank %d",currTime,rank)));
+        //if ((rank%5)==0) context.write(new Text(key.toString().substring(0,10)),new Text(String.format("%s rank %d",currTime,rank)));
+        context.write(new Text(key.toString().substring(0,10)),new Text(String.format("%s rank %d",currTime,rank)));
         rank++;
       }
       //context.write(key,new Text(String.format("Final: %s",finalTime)));
@@ -111,7 +114,16 @@ public class TimeRank extends Configured implements Tool {
       System.err.printf("Usage %s [opt] <indir> <outdir>\n",getClass().getSimpleName());
       return -1;
     }
+    //System.out.println("Changing conf 1m");
+    //conf.set("mapreduce.input.fileinputformat.split.maxsize","268435456");
+    //getConf().set("mapreduce.input.fileinputformat.split.maxsize","268435456");
+    // This one has an impact, find the units:
+    //getConf().set("mapreduce.input.fileinputformat.split.maxsize","1048576");
+
     Job job = Job.getInstance(getConf());
+
+
+    job.setInputFormatClass(CombineTextInputFormat.class);
     job.setJarByClass(TimeRank.class);
     job.setJobName("Map Only 'SELECT Time, WindSpeedMPH WHERE WindSpeedMPH >= 20.0'");
     FileInputFormat.setInputPaths(job,new Path(args[0]));
