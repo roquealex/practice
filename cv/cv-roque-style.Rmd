@@ -5,14 +5,14 @@ output:
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-first <- "Orange"
-middle <- "Marshall"
-last <- "Blackstar"
+firstname <- "Orange"
+middlename <- "Marshall"
+lastname <- "Blackstar"
 nickname <- "something"
 phone <- "999 222 0000"
 ```
 ---
-title: "`r first` MIDDLE LASTNAME"
+title: "`r firstname` `r middlename` `r lastname`"
 output: pdf_document
 fontfamily: arev
 geometry: margin=1cm
@@ -21,10 +21,10 @@ header-includes:
 ---
 \pagenumbering{gobble}
 \begin{center}
-\faEnvelope{\space} \href{mailto:NICKNAME@gmail.com}{`r nickname`@gmail.com} |
-\faPhone{\space} 999 222 0000 | 
-\faGithub{\space} \href{https://github.com/NICKNAME}{NICKNAME} | 
-\faLinkedin{\space} \href{https://www.linkedin.com/in/FIRST-MIDDLE-LASTNAME}{www.linkedin.com/in/FIRST-MIDDLE-LASTNAME}
+\faEnvelope{\space} \href{mailto:`r nickname`@gmail.com}{`r nickname`@gmail.com} |
+\faPhone{\space} `r phone` | 
+\faGithub{\space} \href{https://github.com/`r nickname`}{`r nickname`} | 
+\faLinkedin{\space} \href{https://www.linkedin.com/in/`r firstname`-`r middlename`-`r lastname`}{www.linkedin.com/in/`r firstname`-`r middlename`-`r lastname`}
 \end{center}
 
 ## Education
@@ -78,4 +78,4 @@ Coded a pre-silicon test environment in a mixture of C/C++, System Verilog and P
 
 Spark SQL project written in a Jupyter notebook. It uses a very innovative method to convert an irregular time series into an equally spaced time series. Covers almost 10 years of data. Can run on Databricks.
 
-https://github.com/NICKNAME/windMining/blob/master/kbWindNorYuc/kbWindNorYuc.ipynb
+https://github.com/`r nickname`/windMining/blob/master/kbWindNorYuc/kbWindNorYuc.ipynb
