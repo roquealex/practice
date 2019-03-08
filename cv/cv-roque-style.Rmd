@@ -5,11 +5,13 @@ output:
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-firstname <- "Orange"
-middlename <- "Marshall"
-lastname <- "Blackstar"
-nickname <- "something"
-phone <- "999 222 0000"
+library(jsonlite)
+info <- fromJSON("info.json")
+firstname <- info$firstName
+middlename <- info$middleName
+lastname <- info$lastName
+nickname <- info$nickname
+phone <- info$phone
 ```
 ---
 title: "`r firstname` `r middlename` `r lastname`"
