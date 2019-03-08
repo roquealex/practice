@@ -35,10 +35,12 @@ header-includes:
 
 UC Santa Cruz Silicon Valley Extension, Santa Clara, CA, 2017 – 2018
 
-* Coursework:
-    + Big Data (Apache Hadoop and Spark).
-    + Machine Learning Algorithms.
-    + Predictive Analytics.
+* Courses:
+    + Hadoop: Distributed Processing of Big Data
+    + Apache Spark with Scala
+    + Data Analysis, Introduction (R)
+    + Introduction to Machine Learning and Data Mining
+    + Predictive Analytics: Applications of Machine Learning
 
 **Bachelor of Science in Electrical Engineering**
 
@@ -82,6 +84,6 @@ Coded a pre-silicon test environment in a mixture of C/C++, System Verilog and P
 
 **Wind Analysis Of Northern Yucatan Coast for Kiteboarding (Dec 2018)**
 
-Spark SQL project written in a Jupyter notebook. It uses a very innovative method to convert an irregular time series into an equally spaced time series. Covers almost 10 years of data. Can run on Databricks.
+Spark SQL project written in a Jupyter notebook. It uses a very innovative method to convert an irregular time series into an equally spaced time series for easy computation of time intervals. Covers 10 years of data.
 
 https://github.com/`r nickname`/windMining/blob/master/kbWindNorYuc/kbWindNorYuc.ipynb
