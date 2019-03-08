@@ -1,0 +1,18 @@
+## Education
+
+**Certificate Program in Database and Data Analytics**
+
+UC Santa Cruz Silicon Valley Extension, Santa Clara, CA, 2017 – 2018
+
+* Courses:
+    + Hadoop: Distributed Processing of Big Data
+    + Apache Spark with Scala
+    + Data Analysis, Introduction (R)
+    + Introduction to Machine Learning and Data Mining
+    + Predictive Analytics: Applications of Machine Learning
+
+**Bachelor of Science in Electrical Engineering**
+
+Monterrey Institute of Technology and Higher Education, Guadalajara, Mexico, 1999–2003
+
+  * Graduated with Honors.
