@@ -1,0 +1,41 @@
+**Principal Software Engineer, Cadence (Sept 2015 – Current)**
+
+**PCIe Protocol Model:** Highly customizable PCIe protocol model. Core code written in C. Code base has a lot of legacy from many years.
+
+  * Developed new features related to PCIe Gen4 and Gen5 protocols.
+  * Architected and developed the transport layer of CCIX protocol.
+  * Created a test suite for the new features using UVM.
+  * Trained junior engineers and conducted code reviews as needed.
+  * Debugged and fixed several customer issues using the JIRA system.
+  * Developed a Code Analytics engine that identifies hotspots of the code based on the number of edits. Written in Python and R.
+
+**Component Design Engineer, Intel Corporation, Hard IP Group (Oct 2012 – Sept 2015)**
+
+**High Speed Serial PHY:** Worked as a design engineer for a multiprotocol PHY supporting the following: PCIe (gen 1, 2 and 3), SATA, USB 3.0 & 3.1 and MIPI; communication with controller uses PIPE interface. The PHY had a 22nm and 14nm versions. 
+
+  * Worked on the Physical Coding Sublayer (PCS) and the Common Lane Block.
+  * Defined the power intent of the blocks using UPF files.
+  * Implemented and Documented new RTL features.
+  * Implemented several ECOs.
+  * Piloted Conformal ECO tool to automate the ECO process. The effort was successful in ECOs not requiring UPF changes.
+  * Clock Domain Crossing analysis and Power Intent analysis.
+  * Signed off reports from Physical design (Synthesis, STA, Reliability, etc.), Clock Crossing Domain and Power Domain.
+
+**Component Design Engineer, Intel Corporation, Server Development Group (Jul 2010-Feb 2009)**
+
+**Integrated IO PCIe controller for Xeon (Ivytown):** Worked on verification of the PCIe root complex integrated in the processor, especially on RAS and Advanced Error Reporting features. This includes error injection, reporting, handling and contention.
+
+  * Ported a checker originally written in C++ to OVM, the checker models as a graph the collection of registers for error logging (Advanced Error Reporting registers).
+  * Coded packet error injectors to exercise Advanced Error Reporting in PCIe.
+  * Coded infrastructure to simulate memory bit errors by randomly flipping bits when reading or writing the array protected by ECC.
+
+**Xeon Phi:** Wrote test plans and developed verification collateral in for different DFX features: TAP (JTAG), Probe Mode (CPU debug), Traffic Recorder and Hardware Breakpoint Controllers.
+
+**Verification Engineer, Intel Mexico GDC (Nov 2005 – Feb 2009)**
+
+**Irondale/Oakridge/Vistaridge:** Logic analyzer functionality for QPI protocol implemented on a single integrated circuit. Owned the interface of the QPI BFM written in C++ (SystemC) with the simulation environment in Verilog and System Verilog.
+
+  * Coded a pre-silicon test environment in a mixture of C/C++, System Verilog and Perl scripts.
+  * Developed a library of base classes which were the foundation for a random test environment.
+  * Coded wrappers to interface C++ code to a digital logic simulator.
+  * Coded Perl scripts to automate the simulation/checking process.
