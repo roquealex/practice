@@ -1,6 +1,7 @@
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableUtils;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 import org.apache.hadoop.io.LongWritable;
@@ -27,6 +28,9 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.stream.Stream;
+import java.text.ParseException;
 
 /*
  * History:
@@ -93,24 +97,50 @@ public class WindDemo extends Configured implements Tool {
 
   public static class LocalReducer extends Reducer<Text,GenTupleWritable,Text,Text> {
     
+    //public  int rank = 0;
     @Override
     public void reduce(Text key, Iterable<GenTupleWritable> values, Context context) throws IOException, InterruptedException {
-      int rank = 0;
+      //int rank = 0;
       int readingCount = 0;
       boolean readingFound = false;
+      GenTupleWritable prevRow = null;
       reduceloop:
-      for( GenTupleWritable row : values) {
+      //for( GenTupleWritable row : values) {
+      for( Iterator<GenTupleWritable> it = values.iterator(); it.hasNext() ; ) {
+        GenTupleWritable row = it.next();
         if (row.size()==1) {
           // This is a count
           int thisCount = ((IntWritable)row.get(0)).get();
           readingCount += thisCount;
+          // doesn't work has to be enabled from command:
           assert(!readingFound);
         } else {
           readingFound = true;
           if (readingCount <100 ) break reduceloop;
-          String currRow = row.toString();
-          context.write(key,new Text(String.format("%s rank %d",currRow,rank)));
-          rank++;
+          if (prevRow == null) {
+            //prevRow = row;
+          } else {
+            //String time = ((Text)row.get(WindUtils.COL_TIME)).toString();
+            //String prevTime = ((Text)prevRow.get(WindUtils.COL_TIME)).toString();
+            //context.write(key,new Text(String.format("%s to %s rank %d", prevTime, time, rank)));
+            try {
+              Stream<GenTupleWritable> tuples = WindUtils.interpolateWindSpeedAndDir(prevRow, row);
+              tuples.forEach(tuple -> {
+                try {
+                  //context.write(key,new Text(String.format("%s rank %d", tuple, rank)));
+                  context.write(key,new Text(tuple.toString()));
+                } catch (IOException e) {
+                } catch (InterruptedException e) {
+                }
+              } );
+
+
+            } catch (ParseException e) {
+            }
+
+            //rank++;
+          }
+          prevRow = WritableUtils.clone(row,context.getConfiguration());
         }
         /*
         String currRow = row.toString();

@@ -139,12 +139,19 @@ def interceptExpr(x1,y1,x2,y2) :
     long step = FIVE_MINUTES_IN_MILLIS;
     //LongStream.range((startEpoch+step-1)/step, endEpoch/step).map(x -> x*step).forEach(x -> System.out.println(x));
 
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("America/Merida"));
+
     Stream<GenTupleWritable> tuples = LongStream.range((startEpoch+step-1)/step, endEpoch/step)
       .map(x -> x*step)
       .mapToObj(t -> {
+        String tsStr = dateFormat.format(new Date(t));
         if (t == startEpoch) {
           Writable[] arr = {
-            start.get(COL_TIME),
+            //start.get(COL_TIME),
+            //new Text(tsFormat.format(new Date(t))),
+            new Text(tsStr.substring(0,10)),
+            new Text(tsStr),
             new LongWritable(t/1000), // to match golden
             new DoubleWritable(positiveAngle(startAngle)),
             start.get(COL_WINDSPEEDMPH)
@@ -152,13 +159,16 @@ def interceptExpr(x1,y1,x2,y2) :
           return new GenTupleWritable(arr);
         } else {
           Writable[] arr = {
-            new Text(tsFormat.format(new Date(t))),
+            //new Text(tsFormat.format(new Date(t))),
+            new Text(tsStr.substring(0,10)),
+            new Text(tsStr),
             new LongWritable(t/1000), // to match golden
             new DoubleWritable(positiveAngle(linearExpr(t,mWindDirectionDegrees,bWindDirectionDegrees))),
             new DoubleWritable(linearExpr(t,mWindSpeedMPH,bWindSpeedMPH)),
           };
           return new GenTupleWritable(arr);
         }
+
       });
     return tuples;
 
