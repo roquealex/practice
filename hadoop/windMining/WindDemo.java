@@ -6,6 +6,7 @@ import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.NullWritable;
 //import org.apache.hadoop.mapred.join.TupleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -95,8 +96,7 @@ public class WindDemo extends Configured implements Tool {
   }
 
 
-  public static class LocalReducer extends Reducer<Text,GenTupleWritable,Text,Text> {
-    
+  public static class LocalReducer extends Reducer<Text,GenTupleWritable,/*Text*/ NullWritable,Text> {
     //public  int rank = 0;
     @Override
     public void reduce(Text key, Iterable<GenTupleWritable> values, Context context) throws IOException, InterruptedException {
@@ -128,7 +128,8 @@ public class WindDemo extends Configured implements Tool {
               tuples.forEach(tuple -> {
                 try {
                   //context.write(key,new Text(String.format("%s rank %d", tuple, rank)));
-                  context.write(key,new Text(tuple.toString()));
+                  //context.write(key,new Text(tuple.toString()));
+                  context.write(NullWritable.get(),new Text(tuple.toString()));
                 } catch (IOException e) {
                 } catch (InterruptedException e) {
                 }
@@ -205,7 +206,8 @@ public class WindDemo extends Configured implements Tool {
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(GenTupleWritable.class);
 
-    job.setOutputKeyClass(Text.class);
+    //job.setOutputKeyClass(Text.class);
+    job.setOutputKeyClass(NullWritable.class);
     job.setOutputValueClass(Text.class);
 
     boolean success = job.waitForCompletion(true);
