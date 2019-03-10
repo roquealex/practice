@@ -96,11 +96,28 @@ public class WindDemo extends Configured implements Tool {
     @Override
     public void reduce(Text key, Iterable<GenTupleWritable> values, Context context) throws IOException, InterruptedException {
       int rank = 0;
+      int readingCount = 0;
+      boolean readingFound = false;
+      reduceloop:
       for( GenTupleWritable row : values) {
+        if (row.size()==1) {
+          // This is a count
+          int thisCount = ((IntWritable)row.get(0)).get();
+          readingCount += thisCount;
+          assert(!readingFound);
+        } else {
+          readingFound = true;
+          if (readingCount <100 ) break reduceloop;
+          String currRow = row.toString();
+          context.write(key,new Text(String.format("%s rank %d",currRow,rank)));
+          rank++;
+        }
+        /*
         String currRow = row.toString();
         //context.write(new Text(key.toString().substring(0,10)),new Text(String.format("%s rank %d",currRow,rank)));
         context.write(key,new Text(String.format("%s rank %d",currRow,rank)));
         rank++;
+        */
       }
     }
   }

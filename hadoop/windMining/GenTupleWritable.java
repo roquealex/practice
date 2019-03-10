@@ -8,6 +8,9 @@ import org.apache.hadoop.io.Writable;
  *
  */
 public class GenTupleWritable extends TupleWritable {
+  public GenTupleWritable() {
+    super();
+  }
   /**
    * Initialize tuple with storage; unknown whether any of them contain
    * &quot;written&quot; values.

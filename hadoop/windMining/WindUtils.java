@@ -163,8 +163,6 @@ def interceptExpr(x1,y1,x2,y2) :
     return tuples;
 
   }
-  /*
-  */
 
   private static boolean compareSubHeader(String header, String subHeader) {
     final int subHeaderLength = subHeader.length();
@@ -184,6 +182,7 @@ def interceptExpr(x1,y1,x2,y2) :
     return (compareSubHeader(line, "Time"));
   }
 
+  /*
   public static void main(String s[]) {
     System.out.println("This is a test");
     String lines[] = {
@@ -232,12 +231,6 @@ def interceptExpr(x1,y1,x2,y2) :
       }
     } catch (Exception e) {
     }
-    /*
-    int step = 50;
-    int startr = 52;
-    int endr = 55;
-    LongStream.range((startr+step-1)/step, (endr+step-1)/step).map(x -> x*step).forEach(x -> System.out.println(x));
-    */
-    //(((fromTs+step-1)/step)*step to (toTs-1) by step)
   }
+    */
 }
