@@ -142,7 +142,7 @@ def interceptExpr(x1,y1,x2,y2) :
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     dateFormat.setTimeZone(TimeZone.getTimeZone("America/Merida"));
 
-    Stream<GenTupleWritable> tuples = LongStream.range((startEpoch+step-1)/step, endEpoch/step)
+    Stream<GenTupleWritable> tuples = LongStream.rangeClosed((startEpoch+step-1)/step, (endEpoch-1)/step)
       .map(x -> x*step)
       .mapToObj(t -> {
         String tsStr = dateFormat.format(new Date(t));
@@ -153,8 +153,8 @@ def interceptExpr(x1,y1,x2,y2) :
             new Text(tsStr.substring(0,10)),
             new Text(tsStr),
             new LongWritable(t/1000), // to match golden
-            new DoubleWritable(positiveAngle(startAngle)),
-            start.get(COL_WINDSPEEDMPH)
+            start.get(COL_WINDSPEEDMPH),
+            new DoubleWritable(positiveAngle(startAngle))
           };
           return new GenTupleWritable(arr);
         } else {
@@ -163,8 +163,8 @@ def interceptExpr(x1,y1,x2,y2) :
             new Text(tsStr.substring(0,10)),
             new Text(tsStr),
             new LongWritable(t/1000), // to match golden
-            new DoubleWritable(positiveAngle(linearExpr(t,mWindDirectionDegrees,bWindDirectionDegrees))),
             new DoubleWritable(linearExpr(t,mWindSpeedMPH,bWindSpeedMPH)),
+            new DoubleWritable(positiveAngle(linearExpr(t,mWindDirectionDegrees,bWindDirectionDegrees)))
           };
           return new GenTupleWritable(arr);
         }
@@ -192,7 +192,6 @@ def interceptExpr(x1,y1,x2,y2) :
     return (compareSubHeader(line, "Time"));
   }
 
-  /*
   public static void main(String s[]) {
     System.out.println("This is a test");
     String lines[] = {
@@ -227,8 +226,12 @@ def interceptExpr(x1,y1,x2,y2) :
       }
     }
 
-    String start = "2012-12-24 04:10:00,58.4,53.9,30.01,ESE,118,4.0,6.0,85,0.00,,,0.00,0,Wunderground v.1.15,2012-12-24 10:10:00";
-    String end =   "2012-12-24 04:20:00,58.1,53.9,30.02,ESE,122,5.0,5.0,86,0.00,,,0.00,0,Wunderground v.1.15,2012-12-24 10:20:00";
+    //String start = "2012-12-24 04:10:00,58.4,53.9,30.01,ESE,118,4.0,6.0,85,0.00,,,0.00,0,Wunderground v.1.15,2012-12-24 10:10:00";
+    //String end =   "2012-12-24 04:20:00,58.1,53.9,30.02,ESE,122,5.0,5.0,86,0.00,,,0.00,0,Wunderground v.1.15,2012-12-24 10:20:00";
+
+    String start = "2009-12-09 23:00:00,75.4,73.9,29.86,ENE,71,3.0,3.0,95,0.00,,,0.00,0,Wunderground v.1.15,2009-12-10 05:00:00";
+    String end = "2009-12-09 23:04:00,75.3,73.5,29.86,NE,52,4.0,4.0,94,0.00,,,0.00,0,Wunderground v.1.15,2009-12-10 05:04:00";
+    
 
     GenTupleWritable readingStart = getReading(start);
     GenTupleWritable readingEnd = getReading(end);
@@ -242,5 +245,6 @@ def interceptExpr(x1,y1,x2,y2) :
     } catch (Exception e) {
     }
   }
+  /*
     */
 }

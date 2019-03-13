@@ -188,10 +188,11 @@ public class WindDemo extends Configured implements Tool {
     Job job = Job.getInstance(getConf());
 
 
-    //job.setInputFormatClass(CombineTextInputFormat.class);
+    // Multiple files per map:
+    job.setInputFormatClass(CombineTextInputFormat.class);
     
     job.setJarByClass(WindDemo.class);
-    job.setJobName("Map Only 'SELECT Time, WindSpeedMPH WHERE WindSpeedMPH >= 20.0'");
+    job.setJobName("Resample data into equally spaced");
     FileInputFormat.setInputPaths(job,new Path(args[0]));
     FileOutputFormat.setOutputPath(job,new Path(args[1]));
 
