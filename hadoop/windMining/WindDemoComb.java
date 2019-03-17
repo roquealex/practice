@@ -166,13 +166,12 @@ public class WindDemoComb extends Configured implements Tool {
           readingCount += thisCount;
           // doesn't work has to be enabled from command:
           assert(!readingFound);
-          //context.write(NullWritable.get(),new Text(tuple.toString()));
           //Writable arr[] = new Writable[]{key,new IntWritable(thisCount)};
           //GenTupleWritable tuple = new GenTupleWritable(arr);
           //context.write(NullWritable.get(),new Text(tuple.toString()));
         } else {
           readingFound = true;
-          //if (readingCount <100 ) break reduceloop;
+          if (readingCount <100 ) break reduceloop;
           if (prevRow == null) {
             //prevRow = row;
           } else {
@@ -242,7 +241,6 @@ public class WindDemoComb extends Configured implements Tool {
     //getConf().set("mapreduce.input.fileinputformat.split.maxsize","1048576");
 
     Job job = Job.getInstance(getConf());
-
 
     // Multiple files per map:
     job.setInputFormatClass(CombineTextInputFormat.class);
