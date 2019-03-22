@@ -12,6 +12,8 @@ class TestParser(HTMLParser):
 
     def __TestParser__tag_IDLE(self,tag,attrDict):
         print("IDLE method")
+        if tag == "html" :
+            self.next = None
         if tag == "li" :
             #localId = 0;
             
@@ -34,6 +36,7 @@ class TestParser(HTMLParser):
             #if (attrDict.get("class")== "result-title hdrlnk"):
             if ("result-title" in attrDict.get("class")):
                 self.state = States.EXPECT_TITLE
+                self.url = attrDict.get("href")
         #<a href="https://sfbay.craigslist.org/eby/msg/d/oakley-great-sounding-guitar/6844377829.html" data-id="6844377829" class="result-title hdrlnk">GREAT SOUNDING GUITAR</a>
         #if tag == "a" :
 
@@ -50,6 +53,9 @@ class TestParser(HTMLParser):
         self.price = None
         self.hood = None
         self.title = None
+        self.url = None
+
+        self.next = None
 
         self.liLevel = 0;
         self.processLevel = -1;
@@ -76,12 +82,13 @@ class TestParser(HTMLParser):
         if tag == "li" :
             if self.processLevel == self.liLevel :
                 # write the row and cleanup
-                print("COLLECTED:",self.id,self.price,self.hood,self.title)
+                print("COLLECTED:",self.id,self.price,self.hood,self.title,self.url)
                 self.state = States.IDLE
                 self.id = None
                 self.price = None
                 self.hood = None
                 self.title = None
+                self.url = None
             self.liLevel = self.liLevel - 1;
         if tag == "span" :
             if self.state == States.EXPECT_PRICE :
@@ -93,6 +100,7 @@ class TestParser(HTMLParser):
         if tag == "a" :
             if self.state == States.EXPECT_TITLE :
                 assert self.title != None, "Title data is expected to be collected by now"
+                assert self.url != None, "URL data is expected to be collected by now"
                 self.state = States.PROCESS_ROW
                 
 
