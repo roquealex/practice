@@ -1,5 +1,7 @@
 from html.parser import HTMLParser
 from enum import Enum
+import re
+import pandas as pd
 
 class States(Enum):
     IDLE = 0
@@ -13,15 +15,19 @@ class TestParser(HTMLParser):
     def __TestParser__tag_IDLE(self,tag,attrDict):
         print("IDLE method")
         if tag == "html" :
-            self.next = None
+            # Clean the next on new html
+            self.__next = None
+        if tag == "link" :
+            if (attrDict.get("rel")== "next"):
+                self.__next = attrDict["href"]
         if tag == "li" :
             #localId = 0;
             
             #self.id = attrDict.get("data-pid")
             if (attrDict.get("class")== "result-row"):
                 # must be here or error
-                self.id = attrDict["data-pid"]
-                self.processLevel = self.liLevel
+                self.__id = attrDict["data-pid"]
+                self.__processLevel = self.__liLevel
                 self.state = States.PROCESS_ROW
 
     def __TestParser__tag_PROCESS_ROW(self,tag,attrDict):
@@ -36,7 +42,7 @@ class TestParser(HTMLParser):
             #if (attrDict.get("class")== "result-title hdrlnk"):
             if ("result-title" in attrDict.get("class")):
                 self.state = States.EXPECT_TITLE
-                self.url = attrDict.get("href")
+                self.__url = attrDict.get("href")
         #<a href="https://sfbay.craigslist.org/eby/msg/d/oakley-great-sounding-guitar/6844377829.html" data-id="6844377829" class="result-title hdrlnk">GREAT SOUNDING GUITAR</a>
         #if tag == "a" :
 
@@ -49,17 +55,22 @@ class TestParser(HTMLParser):
         HTMLParser.__init__(self)
         self.state = States.IDLE
 
-        self.id = None
-        self.price = None
-        self.hood = None
-        self.title = None
-        self.url = None
+        self.__id = None
+        self.__price = None
+        self.__hood = None
+        self.__title = None
+        self.__url = None
 
-        self.next = None
+        self.__next = None
+        
+        self.__table = []
 
-        self.liLevel = 0;
-        self.processLevel = -1;
-        self.tag_state = {
+        #regexp:
+        self.__reHood = re.compile('\s*\(\s*(.*?)\s*\)\s*', re.VERBOSE)
+
+        self.__liLevel = 0;
+        self.__processLevel = -1;
+        self.__tagState = {
             States.IDLE: self.__TestParser__tag_IDLE,
             States.PROCESS_ROW: self.__TestParser__tag_PROCESS_ROW,
             States.EXPECT_PRICE: self.__TestParser__tag_UNDEF,
@@ -69,10 +80,10 @@ class TestParser(HTMLParser):
         
     def handle_starttag(self,tag,attrs):
         if tag == "li" :
-            self.liLevel = self.liLevel + 1;
+            self.__liLevel = self.__liLevel + 1
         print("Start tag",tag)
         attrDict = dict(attrs)
-        self.tag_state[self.state](tag,attrDict)
+        self.__tagState[self.state](tag,attrDict)
         for (key,value) in attrs :
             print(key,"->",value)
         print(dict(attrs))
@@ -80,55 +91,72 @@ class TestParser(HTMLParser):
     def handle_endtag(self, tag):
         print("End tag",tag)
         if tag == "li" :
-            if self.processLevel == self.liLevel :
+            if self.__processLevel == self.__liLevel :
                 # write the row and cleanup
-                print("COLLECTED:",self.id,self.price,self.hood,self.title,self.url)
+                print("COLLECTED:",self.__id,self.__price,self.__hood,self.__title,self.__url)
+                
+                row = {
+                    "id" : self.__id,
+                    "price" : self.__price,
+                    "hood" : self.__hood,
+                    "title" : self.__title,
+                    "url" : self.__url
+                    }
+                self.__table.append(row)
+
                 self.state = States.IDLE
-                self.id = None
-                self.price = None
-                self.hood = None
-                self.title = None
-                self.url = None
-            self.liLevel = self.liLevel - 1;
+                self.__id = None
+                self.__price = None
+                self.__hood = None
+                self.__title = None
+                self.__url = None
+                self.__processLevel = -1
+            self.__liLevel = self.__liLevel - 1
         if tag == "span" :
             if self.state == States.EXPECT_PRICE :
-                assert self.price != None, "Price data is expected to be collected by now"
+                assert self.__price != None, "Price data is expected to be collected by now"
                 self.state = States.PROCESS_ROW
             if self.state == States.EXPECT_HOOD :
-                assert self.hood != None, "Hood data is expected to be collected by now"
+                assert self.__hood != None, "Hood data is expected to be collected by now"
                 self.state = States.PROCESS_ROW
         if tag == "a" :
             if self.state == States.EXPECT_TITLE :
-                assert self.title != None, "Title data is expected to be collected by now"
-                assert self.url != None, "URL data is expected to be collected by now"
+                assert self.__title != None, "Title data is expected to be collected by now"
+                assert self.__url != None, "URL data is expected to be collected by now"
                 self.state = States.PROCESS_ROW
                 
 
     def handle_data(self, data):
         print("Data:", data)
         if self.state == States.EXPECT_PRICE :
-            if self.price == None :
-                self.price = data
+            if self.__price == None :
+                self.__price = data.strip()
             else :
-                assert self.price == data, "There were 2 different prices found"
+                assert self.__price == data, "There were 2 different prices found"
         if self.state == States.EXPECT_HOOD :
-            if self.hood == None :
-                self.hood = data
+            if self.__hood == None :
+                self.__hood = self.__reHood.sub(r'\1',data)
             else :
-                assert self.hood == data, "There were 2 different hoods found"
+                assert self.__hood == data, "There were 2 different hoods found"
         if self.state == States.EXPECT_TITLE :
-            if self.title == None :
-                self.title = data
+            if self.__title == None :
+                self.__title = data
             else :
-                assert self.title == data, "There were 2 different titles found"
-        
+                assert self.__title == data, "There were 2 different titles found"
 
-        
-
-parser = TestParser()
-
+    def getNextUrl(self):
+        return self.__next
+    
+    def getPandasDF(self) :
+        pdDF = pd.DataFrame(self.__table)
+        return pdDF
+    
+    
 
 html = """<html>
+
+        <link rel="next" href="https://sfbay.craigslist.org/search/msa?s=120">
+
 <head>
 <title>Test</title>
 </head>
@@ -186,5 +214,24 @@ html = """<html>
 
 </body>
 </html>"""
-parser.feed(html);
+#parser.feed(html);
+#print(parser.state)
+#print(parser.getNextUrl())
+#print(parser.getPandasDF().to_string())
+
+filename = "cl_one.htm"
+
+parser = TestParser()
+
+while filename != None :
+    file = open(filename, "r")
+    for line in file :
+        parser.feed(line)
+    file.close()
+    filename = parser.getNextUrl()
+
+print(parser.getPandasDF().to_string())
+print(parser.getNextUrl())
+
+parser.getPandasDF().to_csv("out.csv", index=False)
 
