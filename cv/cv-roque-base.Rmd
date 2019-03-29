@@ -48,7 +48,7 @@ knitr::kable(skills)
 
 ## Professional Experience
 
-```{r child = 'professional_exp_long.Rmd'}
+```{r child = 'professional_exp_shuffle.Rmd'}
 ```
   
 ## Projects
