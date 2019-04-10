@@ -17,7 +17,7 @@ sudo yum -y install links
 echo "Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:"
 #vi ~/.bashrc
 #-----
-export JAVA_HOME=/usr/lib/jvm/jdk
+#export JAVA_HOME=/usr/lib/jvm/jdk
 echo "export JAVA_HOME=/usr/lib/jvm/jdk" >> ~/.bashrc
 #-----
 
