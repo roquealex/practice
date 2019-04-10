@@ -14,7 +14,7 @@ sudo yum -y install links
 
 
 # Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:
-echo Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:
+echo "Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:"
 #vi ~/.bashrc
 #-----
 export JAVA_HOME=/usr/lib/jvm/jdk
@@ -25,14 +25,22 @@ echo "export JAVA_HOME=/usr/lib/jvm/jdk" >> ~/.bashrc
 #source ~/.bashrc 
 
 # Download Spark to the ec2-user's home directory
-cd ~
+pushd ~
 #wget http://apache.claz.org/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz
+wget http://apache.mirrors.ionfish.org/spark/spark-2.3.3/spark-2.3.3-bin-hadoop2.7.tgz
+popd
 
 # Unpack Spark in the /opt directory
-#sudo tar zxvf $(ls -tdr1 spark-*.tgz | tail -1) -C /opt
+sudo tar zxvf $(ls -tdr1 spark-*.tgz | tail -1) -C /opt
 
 # Create a symbolic link to make it easier to access
-#cd /opt
-#sudo rm -f /opt/spark
-#sudo ln -fs $(ls -tdr1 /opt/spark-* | tail -1) /opt/spark
+pushd /opt
+sudo rm -f /opt/spark
+sudo ln -fs $(ls -tdr1 /opt/spark-* | tail -1) /opt/spark
+popd
+
+#-----
+echo "export SPARK_HOME=/opt/spark" >> ~/.bashrc
+echo "PATH=$PATH:$SPARK_HOME/bin" >> ~/.bashrc
+echo "export PATH" >> ~/.bashrc
 
