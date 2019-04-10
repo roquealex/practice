@@ -40,7 +40,7 @@ sudo ln -fs $(ls -tdr1 /opt/spark-* | tail -1) /opt/spark
 popd
 
 #-----
-echo "export SPARK_HOME=/opt/spark" >> ~/.bashrc
-echo "PATH=$PATH:$SPARK_HOME/bin" >> ~/.bashrc
-echo "export PATH" >> ~/.bashrc
+#echo "export SPARK_HOME=/opt/spark" >> ~/.bashrc
+#echo "PATH=$PATH:$SPARK_HOME/bin" >> ~/.bashrc
+#echo "export PATH" >> ~/.bashrc
 
