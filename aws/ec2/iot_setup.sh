@@ -11,6 +11,9 @@ sudo yum -y install tigervnc-server
 sudo yum -y install xterm
 sudo yum -y install metacity
 sudo yum -y install links
+sudo yum -y install gcc
+sudo yum -y install vim-X11
+
 
 
 # Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:
@@ -40,7 +43,7 @@ sudo ln -fs $(ls -tdr1 /opt/spark-* | tail -1) /opt/spark
 popd
 
 #-----
-#echo "export SPARK_HOME=/opt/spark" >> ~/.bashrc
-#echo "PATH=$PATH:$SPARK_HOME/bin" >> ~/.bashrc
-#echo "export PATH" >> ~/.bashrc
+echo 'export SPARK_HOME=/opt/spark' >> ~/.bashrc
+echo 'PATH=$PATH:$SPARK_HOME/bin' >> ~/.bashrc
+echo 'export PATH' >> ~/.bashrc
 
