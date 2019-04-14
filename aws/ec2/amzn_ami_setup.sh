@@ -13,8 +13,7 @@ sudo yum -y install metacity
 sudo yum -y install links
 sudo yum -y install gcc
 sudo yum -y install vim-X11
-
-
+sudo yum -y install gnome-terminal
 
 # Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:
 echo "Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:"
@@ -30,11 +29,12 @@ echo "export JAVA_HOME=/usr/lib/jvm/jdk" >> ~/.bashrc
 # Download Spark to the ec2-user's home directory
 pushd ~
 #wget http://apache.claz.org/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz
-wget http://apache.mirrors.ionfish.org/spark/spark-2.3.3/spark-2.3.3-bin-hadoop2.7.tgz
-popd
+#wget http://apache.mirrors.ionfish.org/spark/spark-2.3.3/spark-2.3.3-bin-hadoop2.7.tgz
+wget https://www-us.apache.org/dist/spark/spark-2.4.1/spark-2.4.1-bin-hadoop2.7.tgz
 
 # Unpack Spark in the /opt directory
 sudo tar zxvf $(ls -tdr1 spark-*.tgz | tail -1) -C /opt
+popd
 
 # Create a symbolic link to make it easier to access
 pushd /opt
