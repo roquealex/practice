@@ -10,6 +10,7 @@ sudo ln -s $(ls -tdr1 /usr/lib/jvm/java-1.8.0-openjdk-1.8* | sort -n | tail -1) 
 sudo yum -y install tigervnc-server
 sudo yum -y install xterm
 sudo yum -y install metacity
+sudo yum -y install matchbox-window-manager
 sudo yum -y install links
 sudo yum -y install gcc
 sudo yum -y install vim-X11
@@ -46,4 +47,9 @@ popd
 echo 'export SPARK_HOME=/opt/spark' >> ~/.bashrc
 echo 'PATH=$PATH:$SPARK_HOME/bin' >> ~/.bashrc
 echo 'export PATH' >> ~/.bashrc
+
+echo "PySpark - Jupyter setup"
+echo 'export PYSPARK_DRIVER_PYTHON=jupyter' >> ~/.bashrc
+echo "export PYSPARK_DRIVER_PYTHON_OPTS='notebook --no-browser'" >> ~/.bashrc
+echo 'export PYSPARK_PYTHON=python3' >> ~/.bashrc
 
