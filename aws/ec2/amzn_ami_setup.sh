@@ -62,3 +62,5 @@ echo 'export PYSPARK_DRIVER_PYTHON=jupyter' >> ~/.bashrc
 echo "export PYSPARK_DRIVER_PYTHON_OPTS='notebook --no-browser --port=8080'" >> ~/.bashrc
 echo 'export PYSPARK_PYTHON=python3' >> ~/.bashrc
 
+# This is the link to basemap:
+#https://svwh.dl.sourceforge.net/project/matplotlib/matplotlib-toolkits/basemap-1.0.7/basemap-1.0.7.tar.gz
