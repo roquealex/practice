@@ -31,10 +31,9 @@ echo "export JAVA_HOME=/usr/lib/jvm/jdk" >> ~/.bashrc
 pushd ~
 #wget http://apache.claz.org/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz
 wget http://apache.mirrors.ionfish.org/spark/spark-2.3.3/spark-2.3.3-bin-hadoop2.7.tgz
-popd
-
 # Unpack Spark in the /opt directory
 sudo tar zxvf $(ls -tdr1 spark-*.tgz | tail -1) -C /opt
+popd
 
 # Create a symbolic link to make it easier to access
 pushd /opt
