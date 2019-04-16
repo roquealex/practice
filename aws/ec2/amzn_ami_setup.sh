@@ -9,12 +9,12 @@ sudo ln -s $(ls -tdr1 /usr/lib/jvm/java-1.8.0-openjdk-1.8* | sort -n | tail -1) 
 #Install my stuff
 sudo yum -y install tigervnc-server
 sudo yum -y install xterm
-sudo yum -y install metacity
+#sudo yum -y install metacity
 #sudo yum -y install matchbox-window-manager
 sudo yum -y install links
 sudo yum -y install gcc
 sudo yum -y install vim-X11
-sudo yum -y install gnome-terminal
+#sudo yum -y install gnome-terminal
 
 # Python3 and libraries:
 #sudo yum -y install python3
@@ -64,5 +64,10 @@ echo 'export PYSPARK_PYTHON=python3' >> ~/.bashrc
 
 # This is the link to basemap:
 #https://svwh.dl.sourceforge.net/project/matplotlib/matplotlib-toolkits/basemap-1.0.7/basemap-1.0.7.tar.gz
+
+# Mate desktop
+#sudo amazon-linux-extras -y mate-desktop
+sudo amazon-linux-extras install  mate-desktop1.x
 echo '#!/bin/bash' > ~/.Xclients
 echo 'exec "$(type -p mate-session)"' >> ~/.Xclients
+chmod 755 ~/.Xclients
