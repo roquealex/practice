@@ -17,13 +17,13 @@ sudo yum -y install vim-X11
 sudo yum -y install gnome-terminal
 
 # Python3 and libraries:
-sudo yum -y install python3
-sudo pip3 install numpy
-sudo pip3 install pandas
-sudo pip3 install matplotlib
-sudo pip3 install astral
-sudo pip3 install calmap
-sudo pip3 install jupyter
+#sudo yum -y install python3
+#sudo pip3 install numpy
+#sudo pip3 install pandas
+#sudo pip3 install matplotlib
+#sudo pip3 install astral
+#sudo pip3 install calmap
+#sudo pip3 install jupyter
 
 # Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:
 echo "Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:"
@@ -64,3 +64,5 @@ echo 'export PYSPARK_PYTHON=python3' >> ~/.bashrc
 
 # This is the link to basemap:
 #https://svwh.dl.sourceforge.net/project/matplotlib/matplotlib-toolkits/basemap-1.0.7/basemap-1.0.7.tar.gz
+echo '#!/bin/bash' > ~/.Xclients
+echo 'exec "$(type -p mate-session)"' >> ~/.Xclients
