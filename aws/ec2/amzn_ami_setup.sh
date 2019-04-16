@@ -18,12 +18,15 @@ sudo yum -y install vim-X11
 
 # Python3 and libraries:
 #sudo yum -y install python3
-#sudo pip3 install numpy
-#sudo pip3 install pandas
-#sudo pip3 install matplotlib
-#sudo pip3 install astral
-#sudo pip3 install calmap
-#sudo pip3 install jupyter
+#Python36
+sudo amazon-linux-extras install -y epel
+sudo yum -y install python36 python36-devel python36-pip
+sudo pip3 install numpy
+sudo pip3 install pandas
+sudo pip3 install matplotlib
+sudo pip3 install astral
+sudo pip3 install calmap
+sudo pip3 install jupyter
 
 # Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:
 echo "Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:"
@@ -67,7 +70,7 @@ echo 'export PYSPARK_PYTHON=python3' >> ~/.bashrc
 
 # Mate desktop
 #sudo amazon-linux-extras -y mate-desktop
-sudo amazon-linux-extras install  mate-desktop1.x
+sudo amazon-linux-extras install -y mate-desktop1.x
 echo '#!/bin/bash' > ~/.Xclients
 echo 'exec "$(type -p mate-session)"' >> ~/.Xclients
 chmod 755 ~/.Xclients
