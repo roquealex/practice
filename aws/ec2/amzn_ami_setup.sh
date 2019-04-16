@@ -74,3 +74,20 @@ sudo amazon-linux-extras install -y mate-desktop1.x
 echo '#!/bin/bash' > ~/.Xclients
 echo 'exec "$(type -p mate-session)"' >> ~/.Xclients
 chmod 755 ~/.Xclients
+
+# Installing basemap and dependencies
+sudo yum -y install gcc-c++
+sudo pip3 install pillow
+# Requires geos to be compiled
+export CXX="g++ -std=c++98"
+wget http://download.osgeo.org/geos/geos-3.4.2.tar.bz2
+tar xjvf geos-3.4.2.tar.bz2
+cd geos-3.4.2
+./configure
+make
+sudo make install
+cd ../
+unset CXX
+sudo pip3 install -U git+https://github.com/matplotlib/basemap.git
+# It requeries an old version of pyproj
+sudo pip3 install pyproj==1.9.6
