@@ -12,9 +12,15 @@ sudo yum -y install xterm
 #sudo yum -y install metacity
 #sudo yum -y install matchbox-window-manager
 sudo yum -y install links
-sudo yum -y install gcc
+#sudo yum -y install gcc
 sudo yum -y install vim-X11
 #sudo yum -y install gnome-terminal
+sudo yum -y install mate-desktop
+sudo yum -y install gnome-terminal
+sudo yum -y install mate-terminal
+sudo yum -y install mate-backgrounds
+sudo yum -y install bpg-courier-fonts
+sudo yum -y install wine
 
 # Python3 and libraries:
 #sudo yum -y install python3
@@ -29,25 +35,25 @@ sudo yum -y install vim-X11
 #sudo pip3 install jupyter
 
 # Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:
-echo "Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:"
+#echo "Use a Linux editor such as vi to install the export line (below) into your ~/.bashrc:"
 #vi ~/.bashrc
 #-----
 #export JAVA_HOME=/usr/lib/jvm/jdk
-echo "export JAVA_HOME=/usr/lib/jvm/jdk" >> ~/.bashrc
+#echo "export JAVA_HOME=/usr/lib/jvm/jdk" >> ~/.bashrc
 #-----
 
 # Execute the bashrc file
 #source ~/.bashrc 
 
 # Download Spark to the ec2-user's home directory
-pushd ~
+#pushd ~
 #wget http://apache.claz.org/spark/spark-2.3.1/spark-2.3.1-bin-hadoop2.7.tgz
 #wget http://apache.mirrors.ionfish.org/spark/spark-2.3.3/spark-2.3.3-bin-hadoop2.7.tgz
 #wget https://www-us.apache.org/dist/spark/spark-2.4.1/spark-2.4.1-bin-hadoop2.7.tgz
 
 # Unpack Spark in the /opt directory
 #sudo tar zxvf $(ls -tdr1 spark-*.tgz | tail -1) -C /opt
-popd
+#popd
 
 # Create a symbolic link to make it easier to access
 #pushd /opt
