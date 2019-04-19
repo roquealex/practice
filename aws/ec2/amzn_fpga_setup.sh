@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 # Install wget and java
 #echo Install wget and java
 #sudo yum -y update
@@ -63,7 +65,7 @@ sudo yum -y install wine
 
 #-----
 
-sudo amazon-linux-extras install -y mate-desktop1.x
+#sudo amazon-linux-extras install -y mate-desktop1.x
 
 # Installing basemap and dependencies
 #sudo yum -y install gcc-c++
