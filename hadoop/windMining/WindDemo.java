@@ -153,9 +153,9 @@ public class WindDemo extends Configured implements Tool {
     }
   }
 
-  public static class DateHashPartitioner extends HashPartitioner<Text,Text> {
+  public static class DateHashPartitioner extends HashPartitioner<Text,GenTupleWritable> {
     @Override
-    public int getPartition(Text key, Text value, int numReduceTasks) {
+    public int getPartition(Text key, GenTupleWritable value, int numReduceTasks) {
       return super.getPartition(new Text(key.toString().substring(0,10)),value,numReduceTasks);
       //return super.getPartition(key,value,numReduceTasks);
     }
