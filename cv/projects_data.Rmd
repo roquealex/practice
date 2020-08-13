@@ -1,3 +1,9 @@
+**Streaming Processing: WindChaser (Jun 2019)**
+
+Collects in real time information from Personal Weather Stations and GPS trackers. Uses kafka and spark streaming processing. The messages are communicated in JSON format. The messages are generated using a random simulator. Tested on AWS.
+
+https://github.com/`r nickname`/ucsc-ext/tree/master/EMBD.X412.4/final
+
 **Wind Analysis Of Northern Yucatan Coast for Kiteboarding (Dec 2018)**
 
 Spark SQL project written in a Jupyter notebook. It uses a very innovative method to convert an irregular time series into an equally spaced time series for easy computation of time intervals. It covers 10 years of data. It has been tested on an AWS EMR cluster with HDFS and on the Databricks environment.
@@ -7,9 +13,3 @@ https://github.com/`r nickname`/windMining/blob/master/kbWindNorYuc/kbWindNorYuc
 Databricks version:
 
 https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/4582061751146620/505693809685508/1807284205384247/latest.html
-
-**Streaming Processing: WindChaser (Jun 2019)**
-
-Collects in real time information from Personal Weather Stations and GPS trackers. Uses kafka and spark streaming processing. The messages are communicated in JSON format. The messages are generated using a random simulator. Tested on AWS.
-
-https://github.com/`r nickname`/ucsc-ext/tree/master/EMBD.X412.4/final
