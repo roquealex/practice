@@ -1,0 +1,28 @@
+**Principal Software Engineer, Cadence (Sept 2015 – Current)**
+
+**PCIe Protocol Model:** Highly customizable PCIe protocol model. Core code written in C using PLI/DPI to communicate with the simulator. Code base has a lot of legacy from many years.
+
+  * Architected and developed new features related to PCIe Gen4, Gen5 and CCIX protocols.
+  * Tracked, debugged and fixed several customer issues using the JIRA system.
+  * Trained junior engineers and conducted code reviews as needed.
+  * Developed a Code Analytics engine that identifies hotspots of the code based on the number of edits. Written in Python and R.
+
+**Component Design Engineer, Intel Corporation (Nov 2005 – Sept 2015)**
+
+**Irondale/Oakridge/Vistaridge:** Logic analyzer on a chip for QPI protocol (Cache coherency). Owned the interface of the QPI BFM written in C++ (SystemC) with the simulation environment in Verilog and System Verilog.
+
+  * Coded a pre-silicon test environment in a mixture of C/C++, System Verilog and Perl scripts.
+  * Developed a library of base classes which were the foundation for a random test environment.
+  * Coded wrappers to interface C++ code to a digital logic simulator.
+  * Coded Perl scripts to automate the simulation/checking process.
+
+**PCIe controller for Xeon Processor (Ivytown):** Worked on verification of the PCIe root complex integrated in the processor.
+
+  * Ported a checker originally written in C++ to OVM, the checker models as a graph the collection of registers for error logging (Advanced Error Reporting registers).
+  * Coded packet error injectors to exercise Advanced Error Reporting in PCIe.
+
+**High Speed Serial PHY:** Design Engineer for a PIPE compliant multi-protocol PHY supporting the following: PCIe (Gen 1, 2 and 3), SATA and USB 3.0 & 3.1. The PHY had a 22nm and 14nm versions. 
+
+  * Worked on the Physical Coding Sublayer (PCS) and the Common Lane Block.
+  * Implemented new RTL features and performed ECOs. CDC and power analysis.
+  * Signed off reports from Physical design (Synthesis, STA, Reliability, etc.).
