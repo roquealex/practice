@@ -1,11 +1,12 @@
 **Principal Software Engineer, Cadence (Sept 2015 – Current)**
 
-**PCIe Protocol Model:** Highly customizable PCIe protocol model. Core code written in C using PLI/DPI to communicate with the simulator. Code base has a lot of legacy from many years.
+**PCIe Protocol Model:** Highly customizable PCIe protocol model for simulation. Core code written in C/C++. Code base has a lot of legacy from many years.
 
   * Architected and developed new features related to PCIe Gen4, Gen5 and CCIX protocols.
   * Tracked, debugged and fixed several customer issues using the JIRA system.
   * Trained junior engineers and conducted code reviews as needed.
   * Developed a Code Analytics engine that identifies hotspots of the code based on the number of edits. Written in Python and R.
+  * Working on a test generation engine using Machine Learning with TensorFlow.
 
 **Component Design Engineer, Intel Corporation (Nov 2005 – Sept 2015)**
 
