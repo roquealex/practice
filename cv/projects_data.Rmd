@@ -14,7 +14,7 @@ Collects in real time information from Personal Weather Stations and GPS tracker
 
 https://github.com/`r nickname`/ucsc-ext/tree/master/EMBD.X412.4/final
 
-**R Markdown Resume**
+**Resume**
 
 This resume was created with R Markdown.
 
