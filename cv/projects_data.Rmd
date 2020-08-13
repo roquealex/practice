@@ -10,7 +10,7 @@ https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93e
 
 **Streaming Processing: WindChaser (Jun 2019)**
 
-Collects in real time information from Personal Weather Stations and GPS trackers. Uses kafka and spark streaming processing. The messages are communicated in JSON format. The messages are generated using a random simulator. Tested on AWS.
+Collects in real time information from Personal Weather Stations and GPS trackers. Uses Kafka and Spark streaming processing. The messages are communicated in JSON format. The messages are generated using a random simulator. Tested on AWS.
 
 https://github.com/`r nickname`/ucsc-ext/tree/master/EMBD.X412.4/final
 
